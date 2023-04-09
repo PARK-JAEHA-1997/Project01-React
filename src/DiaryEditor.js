@@ -7,29 +7,29 @@ const DiaryEditor = () => {
         content: "내용을 입력해주세요",
     });
 
+    const handleChangeState = (e) => {
+        console.log(e.target.name);
+        console.log(e.target.value);
+
+        setState({
+            ...state,
+            [e.target.name]: e.target.value, //선택된 값만 변경
+        });
+    };
+
     return <div className="DiaryEditor">
         <h2>오늘의 일기</h2>
         <div>
             <input
             name="author"
             value={state.author}
-            onChange={(e)=>{
-                setState({
-                    ...state, //spread 연산자 (반드시 spread가 먼저)
-                    author: e.target.value, //저자는 변경
-                });
-            }}
+            onChange={handleChangeState}
             />
         </div>
         <div>
             <textarea 
             value={state.content}
-            onChange={(e)=>{
-                setState({
-                    ...state, //spread 연산자
-                    content: e.target.value, //컨텐츠는 변경
-                });
-            }}
+            onChange={handleChangeState}
             />
         </div>
     </div>
