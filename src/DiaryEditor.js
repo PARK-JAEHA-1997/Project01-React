@@ -15,8 +15,8 @@ const DiaryEditor = () => {
             value={state.author}
             onChange={(e)=>{
                 setState({
-                    author: e.target.value,
-                    content: state.content,
+                    ...state, //spread 연산자 (반드시 spread가 먼저)
+                    author: e.target.value, //저자는 변경
                 });
             }}
             />
@@ -26,8 +26,8 @@ const DiaryEditor = () => {
             value={state.content}
             onChange={(e)=>{
                 setState({
-                    author: state.author,
-                    content: e.target.value,
+                    ...state, //spread 연산자
+                    content: e.target.value, //컨텐츠는 변경
                 });
             }}
             />
