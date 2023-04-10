@@ -9,9 +9,8 @@ const DiaryEditor = () => {
     });
 
     const handleChangeState = (e) => {
-        console.log(e.target.name);
         console.log(e.target.value);
-
+        console.log(e.target.name);
         setState({
             ...state,
             [e.target.name]: e.target.value, //선택된 값만 변경
@@ -19,7 +18,14 @@ const DiaryEditor = () => {
     };
 
     const handleSubmit = () => {
-        console.log(state);
+        if(state.author.length < 1 ) {
+            alert("작성자 이름을 최소 1글자 이상 입력해주세요"); //최소 작성 기준 추가
+            return;
+        }
+        if(state.content.length < 5 ) {
+            alert("본문을 최소 5글자 이상 입력해주세요"); //최소 작성 기준 추가
+            return;
+        }
         alert("저장 성공");
     }
 
@@ -34,6 +40,7 @@ const DiaryEditor = () => {
         </div>
         <div>
             <textarea 
+            name="content" //name 속성 추가
             value={state.content}
             onChange={handleChangeState}
             />
