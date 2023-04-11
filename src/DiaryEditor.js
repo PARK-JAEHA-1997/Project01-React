@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-const DiaryEditor = () => {
+const DiaryEditor = ({onCreate}) => {
 
     const authorInput = useRef();
     const contentInput = useRef();
@@ -29,8 +29,14 @@ const DiaryEditor = () => {
             contentInput.current.focus(); //최소 기준 미달시 포커스
             return;
         }
-        alert("저장 성공");
-    }
+    onCreate(state.author, state.content, state.emotion); //일기 리스트에 추가
+    alert("저장 성공");
+    setState({ //저장이 끝나면 초기화
+        author: "",
+        content: "",
+        emotion: 1,
+    });
+    };
 
     return <div className="DiaryEditor">
         <h2>오늘의 일기</h2>
