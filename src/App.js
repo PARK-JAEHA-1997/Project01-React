@@ -40,7 +40,7 @@ function App() {
       content,
       emotion,
       created_date,
-      id: dataId.current
+      id: dataId.current + 1 //id를 1부터 시작하게 하였다
     };
     dataId.current += 1; //리스트 번호를 1증가
     setData([newItem, ...data]); //새로운 리스트를 앞에 오게 한다
@@ -52,10 +52,16 @@ const onRemove = (targetId) => {
   setData(console.log(newDiaryList)); //리스트 삭제
 }
 
+const onEdit = (targetId, newContent) => { //특정 일기 Data를 배열에서 수정한다 : 수정한 배열은 수정이 완료된 배열을 setData에 넣는다
+  setData(
+    data.map((it) => it.id === targetId ? {...it, content: newContent} : it) //각각 모든 요소들이 target id와 일치하는지 확인 > 일치하면 수정된 배열 반영, 불일치는 원래대로
+  );
+}
+
   return (
     <div className="App">
       <DiaryEditor onCreate={onCreate}/>
-      <DiaryList onRemove={onRemove} diaryList={data}/>
+      <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data}/>
     </div>
   );
 }
