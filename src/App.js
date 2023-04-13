@@ -13,7 +13,17 @@ function App() {
     const res = await fetch(
       "https://jsonplaceholder.typicode.com/comments"
     ).then((rest) => rest.json());
-    console.log(res);
+    const initDate = res.slice(0, 20).map((it) => {
+      //20개를 뽑아서 일괄처리
+      return {
+        author: it.emial,
+        content: it.body,
+        emotion: Math.floor(Math.random() * 5) + 1, //1부터 5사이의 랜덤한 수
+        created_date: new Date().getTime(),
+        id: dataId.current++,
+      };
+    });
+    setData(initDate);
   };
 
   useEffect(() => {
