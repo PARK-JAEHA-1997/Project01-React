@@ -1,37 +1,24 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
 import "./App.css";
-import Lifecycle from "./Lifecycle";
-
-// const dummyList = [
-//   {
-//     id: 1,
-//     author: "아아",
-//     content: "아아아아아",
-//     emotion: 5,
-//     created_date: new Date().getTime()
-//   },
-//   {
-//     id: 2,
-//     author: "아아2",
-//     content: "아아아아아2",
-//     emotion: 3,
-//     created_date: new Date().getTime()
-//   },
-//   {
-//     id: 3,
-//     author: "아아3",
-//     content: "아아아아아3",
-//     emotion: 1,
-//     created_date: new Date().getTime()
-//   },
-// ]
 
 function App() {
   const [data, setData] = useState([]); //Reat는 단방향 통신이므로 App.js 부모 컴포넌트를 통해 List를 갱신
 
   const dataId = useRef(0);
+
+  const getDate = async () => {
+    //데이터를 가져오는 함수
+    const res = await fetch(
+      "https://jsonplaceholder.typicode.com/comments"
+    ).then((rest) => rest.json());
+    console.log(res);
+  };
+
+  useEffect(() => {
+    getDate();
+  }, []);
 
   const onCreate = (author, content, emotion) => {
     //새로운 일기를 추가하는 함수
@@ -64,7 +51,6 @@ function App() {
 
   return (
     <div className="App">
-      <Lifecycle />
       <DiaryEditor onCreate={onCreate} />
       <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} />
     </div>
