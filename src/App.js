@@ -52,19 +52,20 @@ function App() {
     //함수형 업데이트
   }, []);
 
-  const onRemove = (targetId) => {
-    const newDiaryList = data.filter((it) => it.id !== targetId); //타겟 id가 아닌 데이터만 남긴다
-    setData(newDiaryList); //리스트 삭제
-  };
+  const onRemove = useCallback((targetId) => {
+    setData((data) => data.filter((it) => it.id !== targetId));
+    //타겟 id가 아닌 데이터만 남긴다
+    //리스트 삭제
+  }, []);
 
-  const onEdit = (targetId, newContent) => {
+  const onEdit = useCallback((targetId, newContent) => {
     //특정 일기 Data를 배열에서 수정한다 : 수정한 배열은 수정이 완료된 배열을 setData에 넣는다
     setData(
       data.map((it) =>
         it.id === targetId ? { ...it, content: newContent } : it
       ) //각각 모든 요소들이 target id와 일치하는지 확인 > 일치하면 수정된 배열 반영, 불일치는 원래대로
     );
-  };
+  }, []);
 
   const getDiaryAnalysis = useMemo(() => {
     const goodCount = data.filter((it) => it.emotion >= 3).length;
