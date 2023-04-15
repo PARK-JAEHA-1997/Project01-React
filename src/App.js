@@ -1,8 +1,13 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
 import "./App.css";
-import OptimizeTest from "./OptimizeTest";
 
 function App() {
   const [data, setData] = useState([]); //Reat는 단방향 통신이므로 App.js 부모 컴포넌트를 통해 List를 갱신
@@ -31,8 +36,9 @@ function App() {
     getDate();
   }, []);
 
-  const onCreate = (author, content, emotion) => {
+  const onCreate = useCallback((author, content, emotion) => {
     //새로운 일기를 추가하는 함수
+    //useMemo는 값을 반환하므로 useCallbak을 사용한다
     const created_date = new Date().getTime();
     const newItem = {
       author,
@@ -42,8 +48,9 @@ function App() {
       id: dataId.current + 1, //id를 1부터 시작하게 하였다
     };
     dataId.current += 1; //리스트 번호를 1증가
-    setData([newItem, ...data]); //새로운 리스트를 앞에 오게 한다
-  };
+    setData((data) => [newItem, ...data]); //새로운 리스트를 앞에 오게 한다
+    //함수형 업데이트
+  }, []);
 
   const onRemove = (targetId) => {
     const newDiaryList = data.filter((it) => it.id !== targetId); //타겟 id가 아닌 데이터만 남긴다
@@ -70,7 +77,6 @@ function App() {
 
   return (
     <div className="App">
-      <OptimizeTest />
       <DiaryEditor onCreate={onCreate} />
       <div>전체 일기 : {data.length}</div>
       <div>기분 좋은 일기 개수 : {goodCount}</div>

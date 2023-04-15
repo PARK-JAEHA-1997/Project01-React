@@ -1,6 +1,9 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 const DiaryEditor = ({ onCreate }) => {
+  useEffect(() => {
+    console.log("DicaryEditor 렌더");
+  });
   const authorInput = useRef();
   const contentInput = useRef();
 
@@ -76,4 +79,4 @@ const DiaryEditor = ({ onCreate }) => {
     </div>
   );
 };
-export default DiaryEditor;
+export default React.memo(DiaryEditor); //한꺼번에 React.memo로 묶을 수 있다
